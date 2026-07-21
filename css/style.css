@@ -1,0 +1,543 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #000;
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    user-select: none;
+}
+
+#game-canvas {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#ui-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+#ui-overlay > div:not(.hidden) {
+    pointer-events: auto;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ========== HUD ========== */
+#hud {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 12px 20px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+    z-index: 10;
+}
+
+#hud-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+#hud-level {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.level-tag {
+    background: #e44d26;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#level-name {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#hud-fuel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.fuel-label, .distance-label, .speed-label {
+    font-size: 12px;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#fuel-bar {
+    width: 160px;
+    height: 14px;
+    background: #333;
+    border-radius: 7px;
+    overflow: hidden;
+    border: 1px solid #555;
+}
+
+#fuel-fill {
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, #00ff88, #00cc66);
+    transition: width 0.3s ease, background 0.3s ease;
+    border-radius: 7px;
+}
+
+#fuel-fill.low {
+    background: linear-gradient(90deg, #ff4444, #ff8800);
+}
+
+#fuel-fill.medium {
+    background: linear-gradient(90deg, #ffaa00, #ffcc00);
+}
+
+#fuel-text {
+    font-size: 14px;
+    font-weight: bold;
+    min-width: 36px;
+    text-align: right;
+}
+
+#hud-distance, #hud-speed {
+    text-align: center;
+}
+
+#distance-value, #speed-value {
+    font-size: 18px;
+    font-weight: bold;
+    display: block;
+}
+
+/* ========== MENU STYLES ========== */
+#main-menu, #how-to-play, #game-over, #victory, #question-modal, #pause-menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 20;
+}
+
+.menu-content {
+    text-align: center;
+    max-width: 500px;
+    padding: 40px;
+}
+
+.game-title {
+    font-size: 48px;
+    margin-bottom: 8px;
+    line-height: 1.2;
+}
+
+.title-html {
+    color: #e44d26;
+}
+
+.title-ampersand {
+    color: #888;
+    font-size: 36px;
+}
+
+.title-css {
+    color: #2965f1;
+}
+
+.title-sub {
+    display: block;
+    font-size: 28px;
+    color: #fff;
+    letter-spacing: 6px;
+    margin-top: 4px;
+}
+
+.game-subtitle {
+    color: #aaa;
+    margin: 16px 0 30px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* ========== BUTTONS ========== */
+.menu-btn {
+    display: block;
+    width: 100%;
+    max-width: 280px;
+    margin: 10px auto;
+    padding: 14px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    border: 2px solid #555;
+    border-radius: 8px;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.menu-btn:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: #fff;
+}
+
+.menu-btn.primary {
+    background: linear-gradient(135deg, #e44d26, #2965f1);
+    border-color: transparent;
+    color: #fff;
+}
+
+.menu-btn.primary:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
+}
+
+/* ========== HOW TO PLAY ========== */
+.how-content {
+    max-width: 550px;
+}
+
+.instructions {
+    text-align: left;
+    margin: 20px 0;
+}
+
+.instruction-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 14px 0;
+    padding: 10px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+}
+
+.instruction-icon {
+    font-size: 20px;
+    font-weight: bold;
+    min-width: 50px;
+    text-align: center;
+    color: #fff;
+}
+
+.fuel-icon { color: #00ff88; }
+.html-icon-lg { color: #e44d26; }
+.obstacle-icon { color: #ff6644; }
+.question-icon { color: #ffcc00; }
+
+.instruction-item p {
+    font-size: 14px;
+    color: #ccc;
+    line-height: 1.4;
+}
+
+.instruction-item strong {
+    color: #fff;
+}
+
+/* ========== QUESTION MODAL ========== */
+#question-modal .modal-content {
+    background: rgba(20, 20, 40, 0.95);
+    border: 2px solid #ffcc00;
+    border-radius: 16px;
+    padding: 30px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+}
+
+#question-title {
+    color: #ffcc00;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 16px;
+}
+
+#question-text {
+    font-size: 18px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    color: #eee;
+}
+
+#question-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#question-options button {
+    padding: 14px 20px;
+    font-size: 15px;
+    border: 2px solid #444;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.05);
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+#question-options button:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: #888;
+}
+
+#question-options button.correct {
+    background: rgba(0, 255, 136, 0.3);
+    border-color: #00ff88;
+    color: #00ff88;
+}
+
+#question-options button.wrong {
+    background: rgba(255, 68, 68, 0.3);
+    border-color: #ff4444;
+    color: #ff4444;
+}
+
+#question-options button:disabled {
+    cursor: default;
+    opacity: 0.6;
+}
+
+#question-feedback {
+    margin-top: 16px;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+#question-feedback.correct-feedback {
+    background: rgba(0, 255, 136, 0.15);
+    color: #00ff88;
+    border: 1px solid rgba(0, 255, 136, 0.3);
+}
+
+#question-feedback.wrong-feedback {
+    background: rgba(255, 68, 68, 0.15);
+    color: #ff4444;
+    border: 1px solid rgba(255, 68, 68, 0.3);
+}
+
+/* ========== GAME OVER / VICTORY ========== */
+#gameover-title {
+    color: #ff4444;
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+#game-over h2 {
+    color: #ff4444;
+}
+
+#gameover-message {
+    color: #aaa;
+    margin-bottom: 20px;
+}
+
+#victory h2 {
+    color: #00ff88;
+    font-size: 32px;
+}
+
+#victory p {
+    color: #aaa;
+    margin-bottom: 20px;
+}
+
+#gameover-stats, #victory-stats {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+#gameover-stats .stat {
+    flex-basis: 100%;
+    text-align: center;
+    padding: 8px;
+    background: rgba(255, 68, 68, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 68, 68, 0.2);
+}
+
+#gameover-stats .stat .stat-label {
+    color: #ff8888;
+}
+
+#gameover-stats .stat .stat-value {
+    color: #ff6666;
+    font-size: 16px;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat-label {
+    display: block;
+    font-size: 11px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.stat-value {
+    display: block;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+/* ========== PAUSE ========== */
+#pause-menu .modal-content {
+    background: rgba(20, 20, 40, 0.95);
+    border: 2px solid #555;
+    border-radius: 16px;
+    padding: 30px;
+    max-width: 350px;
+    width: 90%;
+    text-align: center;
+}
+
+#pause-menu h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+/* ========== LEVEL TRANSITION ========== */
+#level-transition {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 25;
+    animation: fadeIn 0.3s ease;
+}
+
+.transition-content {
+    text-align: center;
+}
+
+#transition-level-num {
+    font-size: 48px;
+    font-weight: bold;
+    color: #ffcc00;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 8px;
+    animation: scaleIn 0.5s ease;
+}
+
+#transition-level-name {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+#transition-level-desc {
+    font-size: 16px;
+    color: #aaa;
+    margin-bottom: 30px;
+}
+
+.transition-progress {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.transition-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #333;
+    border: 2px solid #555;
+    transition: all 0.3s ease;
+}
+
+.transition-dot.completed {
+    background: #00ff88;
+    border-color: #00ff88;
+}
+
+.transition-dot.active {
+    background: #ffcc00;
+    border-color: #ffcc00;
+    box-shadow: 0 0 12px rgba(255, 204, 0, 0.6);
+}
+
+.transition-line {
+    width: 24px;
+    height: 3px;
+    background: #333;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 600px) {
+    .game-title {
+        font-size: 32px;
+    }
+    .title-sub {
+        font-size: 20px;
+    }
+    #hud-top {
+        gap: 10px;
+    }
+    #fuel-bar {
+        width: 100px;
+    }
+    .menu-content {
+        padding: 24px;
+    }
+    #gameover-stats, #victory-stats {
+        gap: 14px;
+    }
+}

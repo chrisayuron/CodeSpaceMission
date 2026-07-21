@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML & CSS Space Racer</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <canvas id="game-canvas"></canvas>
+
+    <div id="ui-overlay">
+        <div id="hud" class="hidden">
+            <div id="hud-top">
+                <div id="hud-level">
+                    <span class="level-tag">Nivel 1</span>
+                    <span id="level-name">HTML Básico</span>
+                </div>
+                <div id="hud-fuel">
+                    <span class="fuel-label">Combustible</span>
+                    <div id="fuel-bar">
+                        <div id="fuel-fill"></div>
+                    </div>
+                    <span id="fuel-text">50%</span>
+                </div>
+                <div id="hud-distance">
+                    <span class="distance-label">Distancia</span>
+                    <span id="distance-value">0 m</span>
+                </div>
+                <div id="hud-speed">
+                    <span class="speed-label">Velocidad</span>
+                    <span id="speed-value">100 km/h</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="main-menu">
+            <div class="menu-content">
+                <h1 class="game-title">
+                    <span class="title-html">&lt;HTML&gt;</span>
+                    <span class="title-ampersand">&amp;</span>
+                    <span class="title-css">CSS</span>
+                    <span class="title-sub">SPACE RACER</span>
+                </h1>
+                <p class="game-subtitle">Recolecta logos HTML y CSS como combustible mientras esquivas obstáculos espaciales</p>
+                <div class="menu-buttons">
+                    <button id="btn-play" class="menu-btn primary">INICIAR MISION</button>
+                    <button id="btn-how" class="menu-btn">CÓMO JUGAR</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="how-to-play" class="hidden">
+            <div class="menu-content how-content">
+                <h2>Cómo Jugar</h2>
+                <div class="instructions">
+                    <div class="instruction-item">
+                        <div class="instruction-icon">↑↓←→</div>
+                        <p>Mueve la nave con las <strong>flechas</strong> o <strong>WASD</strong></p>
+                    </div>
+                    <div class="instruction-item">
+                        <div class="instruction-icon fuel-icon">⛽</div>
+                        <p>El combustible inicia al <strong>50%</strong> y se agota con el tiempo</p>
+                    </div>
+                    <div class="instruction-item">
+                        <div class="instruction-icon html-icon-lg">HTML</div>
+                        <p>Recolecta los <strong>logos HTML y CSS</strong> para obtener combustible (+15%)</p>
+                    </div>
+                    <div class="instruction-item">
+                        <div class="instruction-icon obstacle-icon">☄</div>
+                        <p>Esquiva <strong>asteroides, planetas y escombros</strong> — al chocar pierdes combustible</p>
+                    </div>
+                    <div class="instruction-item">
+                        <div class="instruction-icon question-icon">?</div>
+                        <p>Responde <strong>preguntas</strong> para ganar velocidad y llegar más lejos</p>
+                    </div>
+                </div>
+                <button id="btn-back-how" class="menu-btn">VOLVER</button>
+            </div>
+        </div>
+
+        <div id="question-modal" class="hidden">
+            <div class="modal-content">
+                <h2 id="question-title">PREGUNTA</h2>
+                <p id="question-text"></p>
+                <div id="question-options"></div>
+                <div id="question-feedback" class="hidden"></div>
+                <button id="btn-continue-after-question" class="menu-btn primary hidden">CONTINUAR</button>
+            </div>
+        </div>
+
+        <div id="game-over" class="hidden">
+            <div class="menu-content">
+                <h2 id="gameover-title">MISIÓN FALLIDA</h2>
+                <p id="gameover-message">Te quedaste sin combustible</p>
+                <div id="gameover-stats">
+                    <div class="stat">
+                        <span class="stat-label">Nivel alcanzado</span>
+                        <span id="final-level" class="stat-value">1</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Distancia</span>
+                        <span id="final-distance" class="stat-value">0 m</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Logos HTML</span>
+                        <span id="final-html" class="stat-value">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Logos CSS</span>
+                        <span id="final-css" class="stat-value">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Preguntas</span>
+                        <span id="final-questions" class="stat-value">0/0</span>
+                    </div>
+                </div>
+                <div id="gameover-buttons">
+                    <button id="btn-retry" class="menu-btn primary">REINTENTAR</button>
+                    <button id="btn-menu" class="menu-btn">MENÚ PRINCIPAL</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="victory" class="hidden">
+            <div class="menu-content">
+                <h2>¡MISIÓN COMPLETADA!</h2>
+                <p>¡Completaste los 5 niveles de HTML y CSS!</p>
+                <div id="victory-stats">
+                    <div class="stat">
+                        <span class="stat-label">Combustible restante</span>
+                        <span id="victory-fuel" class="stat-value">0%</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Distancia total</span>
+                        <span id="victory-distance" class="stat-value">0 m</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Preguntas correctas</span>
+                        <span id="victory-questions" class="stat-value">0/0</span>
+                    </div>
+                </div>
+                <div id="victory-buttons">
+                    <button id="btn-play-again" class="menu-btn primary">JUGAR DE NUEVO</button>
+                    <button id="btn-victory-menu" class="menu-btn">MENÚ PRINCIPAL</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="level-transition" class="hidden">
+            <div class="transition-content">
+                <div id="transition-level-num">NIVEL 2</div>
+                <div id="transition-level-name">CSS Básico</div>
+                <div id="transition-level-desc">Selectores y propiedades fundamentales</div>
+                <div class="transition-progress">
+                    <div class="transition-dot completed"></div>
+                    <div class="transition-line"></div>
+                    <div class="transition-dot active"></div>
+                    <div class="transition-line"></div>
+                    <div class="transition-dot"></div>
+                    <div class="transition-line"></div>
+                    <div class="transition-dot"></div>
+                    <div class="transition-line"></div>
+                    <div class="transition-dot"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="pause-menu" class="hidden">
+            <div class="modal-content">
+                <h2>PAUSA</h2>
+                <button id="btn-resume" class="menu-btn primary">CONTINUAR</button>
+                <button id="btn-pause-quit" class="menu-btn">SALIR</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/questions.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>
