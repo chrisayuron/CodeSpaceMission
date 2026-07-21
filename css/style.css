@@ -155,27 +155,20 @@ body {
     font-size: 48px;
     margin-bottom: 8px;
     line-height: 1.2;
+    letter-spacing: 4px;
 }
 
-.title-html {
-    color: #e44d26;
+.title-code {
+    color: #00ff88;
 }
 
-.title-ampersand {
-    color: #888;
-    font-size: 36px;
-}
-
-.title-css {
-    color: #2965f1;
-}
-
-.title-sub {
-    display: block;
-    font-size: 28px;
+.title-space {
     color: #fff;
-    letter-spacing: 6px;
-    margin-top: 4px;
+    margin: 0 8px;
+}
+
+.title-mission {
+    color: #ffcc00;
 }
 
 .game-subtitle {
@@ -524,9 +517,6 @@ body {
 @media (max-width: 600px) {
     .game-title {
         font-size: 32px;
-    }
-    .title-sub {
-        font-size: 20px;
     }
     #hud-top {
         gap: 10px;
